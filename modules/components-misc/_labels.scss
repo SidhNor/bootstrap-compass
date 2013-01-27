@@ -1,0 +1,22 @@
+@mixin labels(){
+  // LABELS
+  // ------
+
+  .label {
+    padding: 1px 3px 2px;
+    font-size: $baseFontSize * .75;
+    font-weight: bold;
+    color: $white;
+    text-transform: uppercase;
+    background-color: $grayLight;
+    @include border-radius(3px);
+  }
+  @include colored-labels(important, $errorText);
+  @include colored-labels(warning, $orange);
+  @include colored-labels(success, $successText);
+  @include colored-labels(info, $infoText);
+}
+
+@mixin colored-labels($name, $backColor) {
+  .label-#{$name} {background-color: $backColor; }
+}

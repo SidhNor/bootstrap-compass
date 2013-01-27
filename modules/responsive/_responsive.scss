@@ -1,0 +1,73 @@
+/*!
+ * Bootstrap Responsive v2.2.2
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+
+// Responsive.scss
+// For phone and tablet devices
+// -------------------------------------------------------------
+
+
+// IE10 Metro responsive
+// Required for Windows 8 Metro split-screen snapping with IE10
+// Source: http://timkadlec.com/2012/10/ie10-snap-mode-and-responsive-design/
+
+@mixin responsive() {
+
+  @-ms-viewport{
+    width: device-width;
+  }
+  @include responsive767-max();
+}
+
+@mixin responsive768-979() {
+  @include responsive-resize(768px, 979px, fixed, $gridColumnWidth768, $gridGutterWidth768);
+  @include responsive-resize(768px, 979px, responsive, $fluidGridColumnWidth768, $fluidGridGutterWidth768);
+  @include responsive-resize(768px, 979px, input, $gridColumnWidth768, $gridGutterWidth768);
+}
+
+@mixin responsive1200-max() {
+
+  @include responsive-resize(1200px, false, fixed, $gridColumnWidth1200, $gridGutterWidth1200);
+
+  @include responsive-resize(1200px, false, responsive, $fluidGridColumnWidth1200, $fluidGridGutterWidth1200);
+
+  @include responsive-resize(1200px, false, input, $gridColumnWidth1200, $gridGutterWidth1200);
+}
+
+@mixin responsive-resize($minWidth, $maxWidth: false, $type: fixed, $columnWidth: $fluidGridColumnWidth, $gutterWidth: $fluidGridGutterWidth) {
+
+  $firstPart: "(min-width: #{$minWidth})";
+  $constructedMedia: "";
+  @if $maxWidth {
+    $constructedMedia : "#{$firstPart} and (max-width: #{$maxWidth})";
+  } @else {
+    $constructedMedia: #{$firstPart};
+  }
+
+  @media #{$constructedMedia} {
+    @include gridSystem($type, $gridColumns, $columnWidth, $gutterWidth);
+
+    @if $type == fixed {
+      // No need to reset .thumbnails when it's the same @gridGutterWidth
+      @if $gutterWidth != $gridGutterWidth {
+        // Thumbnails
+        .thumbnails {
+          margin-left: -$gutterWidth;
+        }
+        .thumbnails > li {
+          margin-left: $gutterWidth;
+        }
+        .row-fluid .thumbnails {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
